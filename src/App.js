@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Route, Link} from 'react-router-dom';
+import {Route, Link, Switch} from 'react-router-dom';
 import Form from './components/Form';
 import ConfirmOrder from './components/ConfirmOrder';
 import axios from 'axios';
@@ -105,7 +105,7 @@ const App = () => {
       <h2>Pizza Time</h2>
       <Link to={'/'}>HOME</Link>
 
-      
+      <Switch>
         <Route path='/pizza'>
           <Form 
               values={formValues}
@@ -125,7 +125,7 @@ const App = () => {
           <h3>Click Below for Pizza Party</h3>
           <Link to={'/pizza'}>Party Time</Link>
         </Route>
-    
+        </Switch>
     </div>
   );
 };

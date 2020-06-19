@@ -98,7 +98,7 @@ export default function Form(props) {
             </div>
             <br/>
             <div className='form-group submit'>
-                <button to='/confirmation' type='submit' disabled={disabled}>SUBMIT</button>
+                <button id='submitBtn' to='/confirmation' type='submit' disabled={disabled}>Add to Order</button>
             </div>
         </div>
      </form>
