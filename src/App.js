@@ -25,27 +25,49 @@ const initialDisabled = true
 
 const App = () => {
 
-  const [order, setOrder] = useState(initialOrder)
+  const [orders, setOrders] = useState(initialOrder)
   const [formValues, setFormValues] = useState(initialFormValues)
   const [formErrors, setFormErrors] = useState(initialFormErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
 
   const onInputChange = evt => {
+    const {name, value} = evt.target
 
+    Yup
+    .reach(formSchema, name)
+    .validate(value)
+    .then(() => {
+      setFormErrors({
+        ...formErrors,
+        [name]: ""
+      })
+    })
+    .catch(err => {
+      setFormErrors({
+        ...formErrors,
+        [name]: err.errors[0]
+      })
+    })
+    setFormValues({
+      ...formValues,
+      [name]: value
+    })
   }
 
   const onCheckboxChange = evt => {
-
+    
   }
 
   const onSubmit = evt => {
     evt.preventDefault()
     const order = {
-      name: formValues.name,
+      name: formValues.name.trim(),
       pizza: Object.keys(formValues.pizza)
         .filter(topping => formValues.pizza[topping]),
-      size: formValues.size
+      size: formValues.size.trim(),
+      instructions: formValues.instructions.trim()
     }
+    setOrders([...orders, order])
   }
 
   useEffect(() => {
