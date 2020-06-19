@@ -15,7 +15,7 @@ export default function Form(props) {
     <form className='form-container' onSubmit={onSubmit}>
         <div>
             <h2>Build Your Pizza</h2>
-
+            
             <div className='errors'>
                 <div>{errors.name}</div>
                 <div>{errors.pizza}</div>
@@ -79,7 +79,7 @@ export default function Form(props) {
             <div className='text-inputs'>
                 <h3>Special Instructions</h3>
                 <label>Type here: &nbsp;
-                    <textarea 
+                    <input 
                         type='text'
                         value={values.instructions}
                         onChange={onInputChange}
@@ -97,7 +97,9 @@ export default function Form(props) {
                 </label>
             </div>
             <br/>
-            <button disabled={disabled} type='submit'>Add to Order</button>
+            <div className='form-group submit'>
+                <button to='/confirmation' type='submit' disabled={disabled}>SUBMIT</button>
+            </div>
         </div>
      </form>
     )

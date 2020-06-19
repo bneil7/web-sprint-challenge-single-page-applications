@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Route, Switch, Link, useHistory} from 'react-router-dom';
+import {Route, Link} from 'react-router-dom';
 import Form from './components/Form';
 import ConfirmOrder from './components/ConfirmOrder';
 import axios from 'axios';
@@ -25,7 +25,13 @@ const initialOrder = []
 const initialDisabled = true
 
 const App = () => {
-  const history = useHistory();
+  // const history = useHistory()
+
+  const [orders, setOrders] = useState(initialOrder)
+  const [formValues, setFormValues] = useState(initialFormValues)
+  const [formErrors, setFormErrors] = useState(initialFormErrors)
+  const [disabled, setDisabled] = useState(initialDisabled)
+
   const postNewPizza = newPizza => {
     axios.post('https://reqres.in/api/pizza', newPizza)
       .then(response => {
@@ -37,14 +43,9 @@ const App = () => {
       })
       .finally(() => {
         setFormValues(initialFormValues)
-        history.push('/confirmation')
+        // history.push('/confirmation')
       })
-      
   }
-  const [orders, setOrders] = useState(initialOrder)
-  const [formValues, setFormValues] = useState(initialFormValues)
-  const [formErrors, setFormErrors] = useState(initialFormErrors)
-  const [disabled, setDisabled] = useState(initialDisabled)
 
   const onInputChange = evt => {
     const {name, value} = evt.target
@@ -104,7 +105,7 @@ const App = () => {
       <h2>Pizza Time</h2>
       <Link to={'/'}>HOME</Link>
 
-      <Switch>
+      
         <Route path='/pizza'>
           <Form 
               values={formValues}
@@ -124,7 +125,7 @@ const App = () => {
           <h3>Click Below for Pizza Party</h3>
           <Link to={'/pizza'}>Party Time</Link>
         </Route>
-      </Switch>
+    
     </div>
   );
 };
