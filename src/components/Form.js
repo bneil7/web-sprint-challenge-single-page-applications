@@ -1,0 +1,103 @@
+import React from 'react';
+
+const Form = (props) => {
+
+    const {
+        values,
+        onSubmit,
+        onInputChange,
+        onCheckboxChange,
+        disabled,
+        errors
+    } = props
+
+    return(
+    <form className='form container' onSubmit={onSubmit}>
+        <div>
+            <h2>Build Your Pizza</h2>
+
+            <div className='errors'>
+                <div>{errors.name}</div>
+                <div>{errors.pizza}</div>
+            </div>
+
+            <div className='dropdown-inputs'>
+                <h4>Select Pizza</h4>
+                <label>Size: &nbsp;
+                    <select
+                        onChange={onInputChange}
+                        value={values.size}
+                        name='size'
+                        >
+                            <option value=''> - SELECT OPTIONS - </option>
+                            <option value='small'>Small</option>
+                            <option value='medium'>Medium</option>
+                            <option value='large'>Large</option>
+                            <option value='xl'>X-Large</option>
+                        </select>
+                </label>
+            </div>
+            <div className='checkbox-inputs'>
+                <h4>Toppings</h4>
+                <label>Pepperoni
+                    <input 
+                        type='checkbox'
+                        onChange={onCheckboxChange}
+                        checked={values.pizza.pepperoni}
+                        name='pepperoni'
+                    />
+                </label>
+                <label>Cheese
+                    <input 
+                        type='checkbox'
+                        onChange={onCheckboxChange}
+                        checked={values.pizza.cheese}
+                        name='cheese'
+                    />
+                </label>
+                <label>Combo
+                    <input 
+                        type='checkbox'
+                        onChange={onCheckboxChange}
+                        checked={values.pizza.combo}
+                        name='combo'
+                    />
+                </label>
+                <label>Veggie
+                    <input 
+                        type='checkbox'
+                        onChange={onCheckboxChange}
+                        checked={values.pizza.veggie}
+                        name='veggie'
+                    />
+                </label>
+            </div>
+            <div className='text-inputs'>
+                <h3>Special Instructions</h3>
+                <label>Type here: &nbsp;
+                    <textarea 
+                        type='text'
+                        value={values.instructions}
+                        onChange={onInputChange}
+                        name='instructions'
+                    />
+                </label>
+                <br/>
+                <label>Your Name: &nbsp;
+                    <input 
+                        value={values.name}
+                        type='text'
+                        name='name'
+                        onChange={onInputChange}
+                    />
+                </label>
+            </div>
+            <br/>
+            <button disabled={disabled}>Submit</button>
+        </div>
+     </form>
+  
+    )
+}
+
+export default Form;
