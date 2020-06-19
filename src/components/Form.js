@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Form = (props) => {
-
+export default function Form(props) {
     const {
         values,
         onSubmit,
@@ -11,14 +10,16 @@ const Form = (props) => {
         errors
     } = props
 
-    return(
-    <form className='form container' onSubmit={onSubmit}>
+    return (
+
+    <form className='form-container' onSubmit={onSubmit}>
         <div>
             <h2>Build Your Pizza</h2>
 
             <div className='errors'>
                 <div>{errors.name}</div>
                 <div>{errors.pizza}</div>
+                <div>{errors.size}</div>
             </div>
 
             <div className='dropdown-inputs'>
@@ -47,6 +48,7 @@ const Form = (props) => {
                         name='pepperoni'
                     />
                 </label>
+                <br/>
                 <label>Cheese
                     <input 
                         type='checkbox'
@@ -55,6 +57,7 @@ const Form = (props) => {
                         name='cheese'
                     />
                 </label>
+                <br/>
                 <label>Combo
                     <input 
                         type='checkbox'
@@ -63,6 +66,7 @@ const Form = (props) => {
                         name='combo'
                     />
                 </label>
+                <br/>
                 <label>Veggie
                     <input 
                         type='checkbox'
@@ -93,11 +97,8 @@ const Form = (props) => {
                 </label>
             </div>
             <br/>
-            <button disabled={disabled}>Submit</button>
+            <button disabled={disabled} type='submit'>Add to Order</button>
         </div>
      </form>
-  
     )
 }
-
-export default Form;

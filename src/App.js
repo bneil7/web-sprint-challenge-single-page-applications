@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import axios from 'axios';
-import {Route, Switch, Link} from 'react-router-dom';
+import {Route, Switch, Link, useHistory} from 'react-router-dom';
 import Form from './components/Form';
+import ConfirmOrder from './components/ConfirmOrder';
+import axios from 'axios';
 import * as Yup from 'yup';
-import formSchema from './validation/formSchema'
+import formSchema from './validation/formSchema';
 
 const initialFormValues = {
   name: '',
@@ -24,7 +25,22 @@ const initialOrder = []
 const initialDisabled = true
 
 const App = () => {
-
+  const history = useHistory();
+  const postNewPizza = newPizza => {
+    axios.post('https://reqres.in/api/pizza', newPizza)
+      .then(response => {
+        console.log(response)
+        setOrders([response.data])
+      })
+      .catch(err => {
+        console.log('ERROR HERE', err)
+      })
+      .finally(() => {
+        setFormValues(initialFormValues)
+        history.push('/confirmation')
+      })
+      
+  }
   const [orders, setOrders] = useState(initialOrder)
   const [formValues, setFormValues] = useState(initialFormValues)
   const [formErrors, setFormErrors] = useState(initialFormErrors)
@@ -36,10 +52,10 @@ const App = () => {
     Yup
     .reach(formSchema, name)
     .validate(value)
-    .then(() => {
+    .then((valid) => {
       setFormErrors({
         ...formErrors,
-        [name]: ""
+        [name]: ''
       })
     })
     .catch(err => {
@@ -55,19 +71,25 @@ const App = () => {
   }
 
   const onCheckboxChange = evt => {
-    
+    const {name, checked} = evt.target
+    setFormValues({
+      ...formValues,
+      pizza:{
+        ...formValues.pizza,
+        [name]:checked
+      }
+    })
   }
-
+  
   const onSubmit = evt => {
     evt.preventDefault()
-    const order = {
+    const newOrder = {
       name: formValues.name.trim(),
-      pizza: Object.keys(formValues.pizza)
-        .filter(topping => formValues.pizza[topping]),
+      pizza: Object.keys(formValues.pizza).filter(topping => formValues.pizza[topping]),
       size: formValues.size.trim(),
       instructions: formValues.instructions.trim()
     }
-    setOrders([...orders, order])
+    postNewPizza(newOrder)
   }
 
   useEffect(() => {
@@ -77,28 +99,33 @@ const App = () => {
   }, [formValues])
 
   return (
-    <>
+    <div>
       <h1>Lambda Eats</h1>
       <h2>Pizza Time</h2>
       <Link to={'/'}>HOME</Link>
 
       <Switch>
-        <Route exact path='/'>
-          <Form 
-            values={formValues}
-            onInputChange={onInputChange}
-            onCheckboxChange={onCheckboxChange}
-            onSubmit={onSubmit}
-            disabled={disabled}
-            errors={formErrors}
-          />
-        </Route>
         <Route path='/pizza'>
-        <p>Get your pizza here</p>
-        <Link to={'/pizza'}>Order Pizza</Link>
+          <Form 
+              values={formValues}
+              onInputChange={onInputChange}
+              onCheckboxChange={onCheckboxChange}
+              onSubmit={onSubmit}
+              disabled={disabled}
+              errors={formErrors}
+            />
+        </Route>
+
+        <Route path='/confirmation'>
+          <ConfirmOrder newOrder={orders} />
+        </Route>
+
+        <Route path='/'>
+          <h3>Click Below for Pizza Party</h3>
+          <Link to={'/pizza'}>Party Time</Link>
         </Route>
       </Switch>
-    </>
+    </div>
   );
 };
 export default App;
