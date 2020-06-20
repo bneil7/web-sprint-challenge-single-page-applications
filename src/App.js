@@ -81,17 +81,7 @@ const App = () => {
       }
     })
   }
-  
-  const onSubmit = evt => {
-    evt.preventDefault()
-    const newOrder = {
-      name: formValues.name.trim(),
-      pizza: Object.keys(formValues.pizza).filter(topping => formValues.pizza[topping]),
-      size: formValues.size.trim(),
-      instructions: formValues.instructions.trim()
-    }
-    postNewPizza(newOrder)
-  }
+
 
   useEffect(() => {
     formSchema.isValid(formValues).then(valid => {
@@ -111,7 +101,7 @@ const App = () => {
               values={formValues}
               onInputChange={onInputChange}
               onCheckboxChange={onCheckboxChange}
-              onSubmit={onSubmit}
+              onSubmit={postNewPizza}
               disabled={disabled}
               errors={formErrors}
             />

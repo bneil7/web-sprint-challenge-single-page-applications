@@ -6,13 +6,17 @@ export default function Form(props) {
         onSubmit,
         onInputChange,
         onCheckboxChange,
-        disabled,
         errors
     } = props
+  
+    const submit = evt => {
+        evt.preventDefault()
+        onSubmit(values)
+    }
 
     return (
 
-    <form className='form-container' onSubmit={onSubmit}>
+    <form className='form-container' onSubmit={submit}>
         <div>
             <h2>Build Your Pizza</h2>
             
@@ -98,7 +102,7 @@ export default function Form(props) {
             </div>
             <br/>
             <div className='form-group submit'>
-                <button id='submitBtn' to='/confirmation' type='submit' disabled={disabled}>Add to Order</button>
+                <button id='submitBtn' to='/confirmation' type='submit'>Add to Order</button>
             </div>
         </div>
      </form>

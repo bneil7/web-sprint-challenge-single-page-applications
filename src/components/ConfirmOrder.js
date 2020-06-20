@@ -4,7 +4,7 @@ const ConfirmOrder = (props) => {
     const {order} = props
     
     if(!order){
-        return <span>Please wait...</span>
+        return <p>Please wait...</p>
     }
 
     return (
@@ -12,9 +12,12 @@ const ConfirmOrder = (props) => {
         <p>{order.name}</p>
         <p>{order.size}</p>
         {
-        <ul>
+        !!order.pizza && !!order.pizza.length &&
+        <div> Toppings:
+            <ul>
             {order.pizza.map((topping, idx) => <li key={idx}>{topping}</li>)}
-        </ul>
+            </ul>
+        </div>
         }
         <p>{order.instructions}</p>
         </>
